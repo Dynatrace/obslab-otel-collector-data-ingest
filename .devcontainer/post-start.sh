@@ -1,8 +1,11 @@
 #!/bin/bash
 
-##########################
-# 2. Run test harness
-#export OTEL_SERVICE_NAME=iio-fluentbitv3
-#export PYTEST_RUN_NAME=startup-automated-test
-#export OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318
-#pytest --export-traces codespaces_test.py
+# Startup Ping
+curl -X POST https://grzxx1q7wd.execute-api.us-east-1.amazonaws.com/default/codespace-tracker \
+  -H "Content-Type: application/json" \
+  -d "{
+    \"type\": \"com.dynatrace.devrel.handson.codespace.started\",
+    \"repo\": \"$GITHUB_REPOSITORY\",
+    \"demo\": \"obslab-otel-collector-data-ingest\",
+    \"codespace.name\": \"$CODESPACE_NAME\"
+  }"
