@@ -30,11 +30,16 @@ config:
         http:
           endpoint: $MY_POD_IP:4318
     filelog: null
+
+  processors:
+    cumulativetodelta:
+
   exporters:
     otlphttp:
       endpoint: "${env:DT_ENDPOINT}"
       headers:
         Authorization: "Api-Token ${env:DT_API_TOKEN}"
+
   service:
     pipelines:
       traces:
@@ -43,7 +48,7 @@ config:
         exporters: [otlphttp]
       metrics:
         receivers: [otlp]
-        processors: []
+        processors: [cumulativetodelta]
         exporters: [otlphttp]
       logs:
         receivers: [otlp]
