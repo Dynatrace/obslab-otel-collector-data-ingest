@@ -3,6 +3,8 @@ FROM mcr.microsoft.com/vscode/devcontainers/base:bookworm as kind
 ARG USERNAME=vscode
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
+ARG YQ_VERSION=v4.44.2
+ARG YQ_BINARY=yq_linux_amd64
 
 RUN export DEBIAN_FRONTEND=noninteractive
 
@@ -15,6 +17,9 @@ RUN apt-get update && \
     apt-get install zsh ca-certificates gnupg jq -y && \
     apt-get autoremove -y && \
     apt-get clean -y
+
+# Install yq
+RUN wget https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/${YQ_BINARY}.tar.gz -O - | tar xz && mv ${YQ_BINARY} /usr/bin/yq
 
 # Install kubectl
 RUN curl -sSL -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl \
