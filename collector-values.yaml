@@ -26,9 +26,9 @@ config:
     otlp:
       protocols:
         grpc:
-          endpoint: $MY_POD_IP:4317
+          endpoint: ${env:MY_POD_IP}:4317
         http:
-          endpoint: $MY_POD_IP:4318
+          endpoint: ${env:MY_POD_IP}:4318
     filelog: null
 
   processors:
