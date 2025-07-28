@@ -12,6 +12,7 @@ nav:
   - "12. What's Next?": whats-next.md
 theme:
   name: material
+  custom_dir: docs/overrides
   features:
     - content.code.copy
   palette:
@@ -50,3 +51,5 @@ markdown_extensions:
       base_path: ["docs"]
 plugins:
     - search
+extra_css:
+  - overrides/assets/stylesheets/extra.css
