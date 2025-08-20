@@ -439,15 +439,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#click-here-to-continue" class="md-nav__link">
-    <span class="md-ellipsis">
-      Click Here to Continue...
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -534,29 +525,7 @@
   
   
   <span class="md-ellipsis">
-    11. Resources
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../whats-next/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    12. What's Next?
+    7. Resources
     
   </span>
   
@@ -626,15 +595,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#click-here-to-continue" class="md-nav__link">
-    <span class="md-ellipsis">
-      Click Here to Continue...
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -658,12 +618,11 @@
 
 <h2 id="create-a-kubernetes-secret">Create a Kubernetes secret<a class="headerlink" href="#create-a-kubernetes-secret" title="Permanent link">#</a></h2>
 <p>Use <code>kubectl</code> to create a <code>Secret</code> to store your Dynatrace connection details.</p>
-<p>Substitute your values into the following command and execute it.</p>
-<p>Change <code>abc12345</code> to your environment ID and change <code>dt0c01.sample.secret</code> to the value of your API token (generated above).</p>
-<p>Note: Do not change the name. Leave as <code>dynatrace-otelcol-dt-api-credentials</code></p>
-<div class="highlight"><pre><span></span><code>kubectl create secret generic dynatrace-otelcol-dt-api-credentials \
---from-literal=DT_ENDPOINT=https://abc12345.live.dynatrace.com/api/v2/otlp \
---from-literal=DT_API_TOKEN=dt0c01.sample.secret
+<p>Copy and paste the following code block as-is.</p>
+<div class="highlight"><pre><span></span><code>source .env
+kubectl create secret generic dynatrace-otelcol-dt-api-credentials \
+--from-literal=DT_ENDPOINT=$DT_URL/api/v2/otlp \
+--from-literal=DT_API_TOKEN=$DT_API_TOKEN
 </code></pre></div>
 <p>You should see this: <code>secret/dynatrace-otelcol-dt-api-credentials created</code></p>
 <h2 id="add-opentelemetry-helm-charts-and-update">Add OpenTelemetry Helm charts and Update<a class="headerlink" href="#add-opentelemetry-helm-charts-and-update" title="Permanent link">#</a></h2>
@@ -688,7 +647,11 @@ helm repo update
 <div class="highlight"><pre><span></span><code>helm upgrade -i my-otel-demo open-telemetry/opentelemetry-demo -f otel-demo-values.yaml
 </code></pre></div>
 <p>The Pods may take 2-3 minutes to start, but running <code>kubectl get pods</code> should eventually show the pods running.</p>
-<h2 id="click-here-to-continue"><a href="../access-ui/">Click Here to Continue...</a><a class="headerlink" href="#click-here-to-continue" title="Permanent link">#</a></h2>
+<div class="grid cards">
+<ul>
+<li><a href="../access-ui/">Click Here to Continue <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"/></svg></span></a></li>
+</ul>
+</div>
 
 
 
@@ -706,6 +669,8 @@ helm repo update
             </div>
           
           
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
@@ -737,7 +702,7 @@ helm repo update
     
     
       
-      <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.tabs.link"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>

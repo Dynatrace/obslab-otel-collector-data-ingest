@@ -122,7 +122,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#getting-started" class="md-skip">
+        <a href="#gather-details-tenant-id-environment" class="md-skip">
           Skip to content
         </a>
       
@@ -342,8 +342,6 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
-        
-      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
@@ -376,8 +374,6 @@
   
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -386,11 +382,35 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#create-api-token" class="md-nav__link">
+  <a href="#gather-details-tenant-id-environment" class="md-nav__link">
     <span class="md-ellipsis">
-      Create API Token
+      Gather Details: Tenant ID &amp; Environment
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gather-details-environment-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gather Details: Environment Type
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Gather Details: Environment Type">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gather-details-create-api-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gather Details: Create API Token
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -398,15 +418,6 @@
   <a href="#start-demo" class="md-nav__link">
     <span class="md-ellipsis">
       Start Demo
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#click-here-to-continue" class="md-nav__link">
-    <span class="md-ellipsis">
-      Click Here to Continue...
     </span>
   </a>
   
@@ -520,29 +531,7 @@
   
   
   <span class="md-ellipsis">
-    11. Resources
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../whats-next/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    12. What's Next?
+    7. Resources
     
   </span>
   
@@ -569,8 +558,6 @@
   
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -579,11 +566,35 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#create-api-token" class="md-nav__link">
+  <a href="#gather-details-tenant-id-environment" class="md-nav__link">
     <span class="md-ellipsis">
-      Create API Token
+      Gather Details: Tenant ID &amp; Environment
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gather-details-environment-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gather Details: Environment Type
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Gather Details: Environment Type">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gather-details-create-api-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gather Details: Create API Token
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -591,15 +602,6 @@
   <a href="#start-demo" class="md-nav__link">
     <span class="md-ellipsis">
       Start Demo
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#click-here-to-continue" class="md-nav__link">
-    <span class="md-ellipsis">
-      Click Here to Continue...
     </span>
   </a>
   
@@ -624,16 +626,52 @@
   
 
 
-<h1 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">#</a></h1>
-<p>You must have the following to use this hands on demo.</p>
-<ul>
-<li>A Dynatrace environment (<a href="https://dt-url.net/trial" target="_blank">sign up here</a>)</li>
-<li>A Dynatrace API token (see below)</li>
-</ul>
-<p>Save the Dynatrace environment URL <strong>without</strong> the trailing slash and without the <code>.apps.</code> in the URL:</p>
+  <h1>2. Getting Started</h1>
+
+<h2 id="gather-details-tenant-id-environment">Gather Details: Tenant ID &amp; Environment<a class="headerlink" href="#gather-details-tenant-id-environment" title="Permanent link">#</a></h2>
+<p>You will need access to a Dynatrace tenant. If you do not have access, <a href="https://dt-url.net/trial" target="_blank">sign up for a free 15 day trial</a>.</p>
+<p>Make a note of your Dynatrace tenant ID. It is the first bit of your URL (eg. <code>abc12345</code> in the following examples):</p>
 <div class="highlight"><pre><span></span><code>https://abc12345.live.dynatrace.com
+https://abc12345.apps.dynatrace.com
 </code></pre></div>
-<h3 id="create-api-token">Create API Token<a class="headerlink" href="#create-api-token" title="Permanent link">#</a></h3>
+<h2 id="gather-details-environment-type">Gather Details: Environment Type<a class="headerlink" href="#gather-details-environment-type" title="Permanent link">#</a></h2>
+<p>Make a note of your "environment type" based on your URL.</p>
+<p>If you are unsure, use <code>live</code>.</p>
+<table>
+<thead>
+<tr>
+<th>URL</th>
+<th>Environment Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>abc12345.apps.dynatrace.com</td>
+<td>live</td>
+</tr>
+<tr>
+<td>abc12345.live.dynatrace.com</td>
+<td>live</td>
+</tr>
+<tr>
+<td>abc12345.sprint.dynatracelabs.com</td>
+<td>sprint</td>
+</tr>
+<tr>
+<td>abc12345.dev.dynatracelabs.com</td>
+<td>dev</td>
+</tr>
+</tbody>
+</table>
+<script>
+var CURRENT_PAGE = "2. getting-started";
+
+document.addEventListener('DOMContentLoaded', function() {
+  dynatrace.sendBizEvent('page_load', {"page": CURRENT_PAGE});
+});
+</script>
+
+<h3 id="gather-details-create-api-token">Gather Details: Create API Token<a class="headerlink" href="#gather-details-create-api-token" title="Permanent link">#</a></h3>
 <p>In Dynatrace:</p>
 <ul>
 <li>Press <code>ctrl + k</code>. Search for <code>access tokens</code>.</li>
@@ -645,14 +683,56 @@
 </li>
 </ul>
 <h2 id="start-demo">Start Demo<a class="headerlink" href="#start-demo" title="Permanent link">#</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Run in Cloud</label><label for="__tabbed_1_2">Run Locally</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="admonition info">
 <p class="admonition-title">Enter Required Information</p>
 <p>During the next step you will be prompted for some details.</p>
 <p>Enter the relevant details in the GitHub form.</p>
 </div>
-<p>Click this button to open the demo environment. This will open in a new tab.</p>
-<p><a href="https://codespaces.new/dynatrace-perfclinics/obslab-otel-collector-data-ingest" target="_blank"><img alt="Open in GitHub Codespaces" src="https://github.com/codespaces/badge.svg" /></a></p>
-<h2 id="click-here-to-continue"><a href="../install-opentelemetry-components/">Click Here to Continue...</a><a class="headerlink" href="#click-here-to-continue" title="Permanent link">#</a></h2>
+<p>Click this button to launch the demo in a new tab.</p>
+<p><a href="https://codespaces.new/dynatrace/obslab-otel-collector-data-ingest" target="_blank"><img alt="Open in GitHub Codespaces" src="https://github.com/codespaces/badge.svg" /></a></p>
+</div>
+<div class="tabbed-block">
+<ul>
+<li>Clone the repository to your local machine</li>
+</ul>
+<div class="highlight"><pre><span></span><code>git clone https://github.com/dynatrace/obslab-otel-collector-data-ingest
+</code></pre></div>
+<ul>
+<li>Open the folder in Visual Studio code</li>
+<li>Ensure the <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers" target="_blank">Microsoft Dev Containers extension</a> and <a href="https://code.visualstudio.com/docs/devcontainers/devcontainer-cli#_installation" target="_blank">Dev Containers CLI</a> are installed in VSCode</li>
+<li>Open a new terminal in VSCode and set your environment variables as appropriate:</li>
+</ul>
+<div class="highlight"><pre><span></span><code>set DT_ENVIRONMENT_ID=abc12345
+set DT_ENVIRONMENT_TYPE=live
+set DT_API_TOKEN=dt0c01.******.***********
+</code></pre></div>
+<ul>
+<li>Start Docker / Podman</li>
+<li>Create the environment</li>
+</ul>
+<div class="highlight"><pre><span></span><code>devcontainer up
+</code></pre></div>
+<p>It will take a few moments but you should see:</p>
+<div class="highlight"><pre><span></span><code>{&quot;outcome&quot;:&quot;success&quot;,&quot;containerId&quot;:&quot;...&quot;,&quot;remoteUser&quot;:&quot;root&quot;,&quot;remoteWorkspaceFolder&quot;:&quot;/workspaces/obslab-k6&quot;}
+</code></pre></div>
+<ul>
+<li>Connect to the demo environment. This will launch a new Visual Studio Code window
+<div class="highlight"><pre><span></span><code>devcontainer open
+</code></pre></div></li>
+</ul>
+<p>In the new Visual Studio code window, open a new terminal and continue with the tutorial.</p>
+</div>
+</div>
+</div>
+<p>You will now have an empty Kubernetes cluster. It is time to install the applications.</p>
+<div class="grid cards">
+<ul>
+<li><a href="../install-opentelemetry-components/">Click Here to Install Components <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"/></svg></span></a></li>
+</ul>
+</div>
 
 
 
@@ -670,6 +750,8 @@
             </div>
           
           
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
@@ -701,7 +783,7 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.tabs.link"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
