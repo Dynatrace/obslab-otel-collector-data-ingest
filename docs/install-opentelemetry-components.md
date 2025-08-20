@@ -2,16 +2,13 @@
 
 Use `kubectl` to create a `Secret` to store your Dynatrace connection details.
 
-Substitute your values into the following command and execute it.
-
-Change `abc12345` to your environment ID and change `dt0c01.sample.secret` to the value of your API token (generated above).
-
-Note: Do not change the name. Leave as `dynatrace-otelcol-dt-api-credentials`
+Copy and paste the following code block as-is.
 
 ```
+source .env
 kubectl create secret generic dynatrace-otelcol-dt-api-credentials \
---from-literal=DT_ENDPOINT=https://abc12345.live.dynatrace.com/api/v2/otlp \
---from-literal=DT_API_TOKEN=dt0c01.sample.secret
+--from-literal=DT_ENDPOINT=$DT_URL/api/v2/otlp \
+--from-literal=DT_API_TOKEN=$DT_API_TOKEN
 ```
 
 You should see this: `secret/dynatrace-otelcol-dt-api-credentials created`
@@ -59,4 +56,6 @@ helm upgrade -i my-otel-demo open-telemetry/opentelemetry-demo -f otel-demo-valu
 
 The Pods may take 2-3 minutes to start, but running `kubectl get pods` should eventually show the pods running.
 
-## [Click Here to Continue...](access-ui.md)
+<div class="grid cards" markdown>
+- [Click Here to Continue :octicons-arrow-right-24:](access-ui.md)
+</div>

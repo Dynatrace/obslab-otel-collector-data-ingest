@@ -2,41 +2,18 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/kubernetes-helm
 {
 	"name": "Kubernetes-in-Codespaces",
-	"dockerFile": "Dockerfile",
+	"image": "ubuntu:jammy",
 	//"name": "Kubernetes - Local Configuration",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	//"image": "mcr.microsoft.com/devcontainers/base:bullseye",
 
-	// do not change these if you want Docker in Docker support
-	"runArgs": ["--init", "--privileged", "--network=host"],
-	"mounts": [ "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind" ],
-	"overrideCommand": false,
-
-	// some base images require a specific user name
-	"remoteUser": "vscode",
-
-	// Install extensions
-	"customizations": {
-		"vscode": {	
-			// Set container specific settings
-			"settings": {
-				"terminal.integrated.defaultProfile.linux": "zsh"
-			},			
-			"extensions": [
-				"ms-azuretools.vscode-docker",
-				"ms-kubernetes-tools.vscode-kubernetes-tools",
-				"davidanson.vscode-markdownlint",
-				"gruntfuggly.todo-tree",
-				"mutantdino.resourcemonitor",
-				"humao.rest-client",
-				"ms-vscode.makefile-tools"
-			]
-		}
+	"features": {
+		"ghcr.io/devcontainers/features/docker-in-docker:2.12.2": {}
 	},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [
-		8080,
+		8080
 	],
 
 	// add labels
@@ -49,9 +26,32 @@
 	},
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": ".devcontainer/post-create.sh",
+	"postCreateCommand": ".devcontainer/post-create.sh && pip install -r .devcontainer/requirements.txt && python3 environment_installer.py",
 
-	// Use 'postStartCommand' to run commands after the container starts.
-    "postStartCommand": ".devcontainer/post-start.sh"
+	// containerEnv and secrets are equivalent
+	// containerEnv is used when running devcontainer locally
+	// eg.
+	// set DT_ENVIRONMENT_ID=abc12345
+	// devcontainer up && devcontainer open
+	// "secrets" is used by GitHub to present the user a UI form they complete
+	// In short, both blocks should stay in sync
+	"containerEnv": {
+		"RepositoryName": "obslab-otel-collector-data-ingest",
+		"DT_ENVIRONMENT_ID": "${localEnv:DT_ENVIRONMENT_ID}",
+		"DT_ENVIRONMENT_TYPE": "${localEnv:DT_ENVIRONMENT_TYPE}",
+		"DT_API_TOKEN": "${localEnv:DT_API_TOKEN}"
+	},
+
+	"secrets": {
+	 	  "DT_ENVIRONMENT_ID": {
+	            "description": "eg. abc12345 from https://abc12345.live.dynatrace.com"
+		},
+		  "DT_ENVIRONMENT_TYPE": {
+			"description": "eg. live, sprint or dev. If unsure, use live."
+		},
+		  "DT_API_TOKEN": {
+	    	    "description": "Dynatrace API token with these permissions: `metrics.ingest`, `openpipeline.events_sdlc`"
+		}
+	}
 
 }

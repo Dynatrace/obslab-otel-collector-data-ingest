@@ -1,15 +1,16 @@
 #!/bin/bash
 
-# Install
-kind create cluster --config .devcontainer/kind-cluster.yml --wait 300s
+export DEBIAN_FRONTEND=noninteractive
 
-# Creation Ping
-# tenant is not available at startup
-# hence missing tenant key below
-curl -X POST https://grzxx1q7wd.execute-api.us-east-1.amazonaws.com/default/codespace-tracker \
-  -H "Content-Type: application/json" \
-  -d "{
-    \"repo\": \"$GITHUB_REPOSITORY\",
-    \"demo\": \"obslab-otel-collector-data-ingest\",
-    \"codespace.name\": \"$CODESPACE_NAME\"
-  }"
+apt update
+apt install -y python3-pip wget sudo gh kubectl
+
+# Install Helm
+curl -s https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash -
+
+# Install kind & cluster
+wget -O kind https://kind.sigs.k8s.io/dl/v0.29.0/kind-linux-amd64
+chmod +x ./kind
+sudo mv ./kind /usr/local/bin/kind
+
+kind create cluster --config .devcontainer/kind-cluster.yml --wait 300s
