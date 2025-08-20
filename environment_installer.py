@@ -40,6 +40,4 @@ if CODESPACE_NAME.startswith("dttest-"):
     # Testing finished. Destroy the codespace
     run_command(["gh", "codespace", "delete", "--codespace", CODESPACE_NAME, "--force"])
 else:
-    print("started successfully")
-    # TEMP: TODO: Uncomment
-    #send_startup_ping(demo_name="obslab-otel-collector-data-ingest")
+    send_startup_ping(demo_name="obslab-otel-collector-data-ingest")
