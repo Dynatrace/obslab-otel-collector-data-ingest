@@ -368,7 +368,7 @@ def send_startup_ping(demo_name=""):
 
     body = {
         "repo": hashed_org_slash_repo,
-        "testing": True,
+        "testing": False,
         "tenant": DT_ENVIRONMENT_ID,
         "demo": demo_name,
         "codespace.name": CODESPACE_NAME
