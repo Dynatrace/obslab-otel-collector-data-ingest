@@ -4,6 +4,39 @@ jaeger:
   enabled: false
 grafana:
   enabled: false
+opensearch:
+  enabled: false
+prometheus:
+  enabled: false
+components:
+  accounting:
+    enabled: false
+  ad:
+    enabled: false
+  currency:
+    enabled: false
+  email:
+    enabled: false
+  # cart:
+  #   enabled: true
+  #   initContainers:
+  #     - name: wait-for-valkey-cart
+  #       image: busybox:1.28
+  #       command: ['sh', '-c', 'until nc -z -v -w30 valkey-cart 6379; do sleep 2; done']
+  flagd:
+    # Turn off flagd-ui as it always crashes and we don't need it
+    sidecarContainers: []
+  fraud-detection:
+    enabled: false
+  product-reviews:
+    enabled: false
+  kafka:
+    enabled: true
+  load-generator:
+    enabled: true
+    resources:
+      limits:
+        memory: 500Mi
 
 default:
   env:

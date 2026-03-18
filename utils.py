@@ -5,11 +5,24 @@ import glob
 import time
 import os
 import json
+import yaml
 import hashlib
 from loguru import logger
+import subprocess
+import sys
+from dotenv import load_dotenv, set_key
 
-REPOSITORY_NAME = os.environ.get("RepositoryName", "obslab-k6")
+
+REPOSITORY_NAME = os.environ.get("RepositoryName", "obslab-otel-collector-data-ingest")
 BASE_DIR = f"/workspaces/{REPOSITORY_NAME}"
+
+loaded = load_dotenv()
+if not loaded:
+    logger.error("Did you create a .env file?")
+
+DT_ENVIRONMENT_ID = os.environ.get("DT_ENVIRONMENT_ID", "")
+DT_ENVIRONMENT_TYPE = os.environ.get("DT_ENVIRONMENT_TYPE", "live")
+DT_API_TOKEN = os.environ.get("DT_API_TOKEN", "")
 
 GEOLOCATION_DEV = "GEOLOCATION-0A41430434C388A9"
 GEOLOCATION_SPRINT = "GEOLOCATION-3F7C50D0C9065578"
@@ -264,6 +277,13 @@ def build_dt_urls(dt_env_id, dt_env_type="live"):
     
     return dt_tenant_apps, dt_tenant_live
 
+def _buildDTURLsAndPersistToDisk():
+    dt_tenant_apps, dt_tenant_live = build_dt_urls(DT_ENVIRONMENT_ID, DT_ENVIRONMENT_TYPE)
+    set_key(dotenv_path=f"{BASE_DIR}/.env", key_to_set="DT_URL", value_to_set=dt_tenant_live, export=True)
+
+# Run the above function
+_buildDTURLsAndPersistToDisk()
+
 def get_sso_auth_token(sso_token_url, oauth_client_id, oauth_client_secret, oauth_urn, permissions):
     
     headers = {
@@ -379,3 +399,92 @@ def send_startup_ping(demo_name=""):
         headers=headers,
         json=body
     )
+
+# Cluster is created
+# But due to running locally in docker
+# the IPs aren't correct so kubectl get nodes won't work
+# This function fixes this
+def configureClusterConnection():
+    with open(f"{BASE_DIR}/.devcontainer/kind-cluster.yml", 'r') as file:
+        data = yaml.safe_load(file)
+
+    # Access specific values like a dictionary
+    cluster_name = data['name']
+
+    # 3) Determine current container ID (hostname)
+    try:
+        container_id = subprocess.run(["hostname"], capture_output=True).stdout.strip()
+        if not container_id:
+            raise RuntimeError("Empty hostname")
+        logger.info(f"Container ID (hostname): {container_id}")
+    except Exception as e:
+        logger.error("Failed to obtain hostname/container id:", e, file=sys.stderr)
+        sys.exit(1)
+    
+    # Start container if it isn't already
+    logger.info(f"Starting {cluster_name}-control-plane in case it is stopped...")
+    try:
+        subprocess.run(["docker", "start", f"{cluster_name}-control-plane"])
+    except Exception as e:
+        logger.info(f"Caught exception trying to start {cluster_name}-control-plane. Perhaps it is already running?")
+        logger.error(e)
+
+    # 3) Connect this devcontainer to the kind network (ignore error if already connected)
+    logger.info(f"Connecting container {container_id} to Docker network {cluster_name} (if not already connected)...")
+    proc = subprocess.run(["docker", "network", "connect", "kind", container_id], check=False, capture_output=True)
+    if proc.returncode == 0:
+        logger.info(f"Connected to '{cluster_name}' network.")
+    else:
+        # Docker returns non-zero if already connected or other issues
+        # We mimic the bash behaviour: ignore the error
+        stderr = proc.stderr.strip() if proc.stderr else ""
+        print(f"Ignored error while connecting to network (return code {proc.returncode}): {stderr}")
+
+    # 4) Get the kind-control-plane internal IP on the `cluster_name` network
+    try:
+        logger.info(f"Inspecting '{cluster_name}-control-plane' container to find IP on '{cluster_name}' network...")
+        inspect_out = subprocess.run(["docker", "inspect", f"{cluster_name}-control-plane"], capture_output=True).stdout
+        info = json.loads(inspect_out)
+        # info is a list; take the first element
+        net_info = info[0]["NetworkSettings"]["Networks"]
+        logger.info(net_info)
+        # This SHOULD really be 'kind'
+        # and not the cluster name because kind calls its network `kind`
+        if 'kind' not in net_info:
+            raise KeyError("Network 'kind' not present in kind-control-plane networks")
+        kind_ip = net_info["kind"]["IPAddress"]
+        if not kind_ip:
+            raise RuntimeError(f"Empty IP address for {cluster_name}-control-plane on 'kind' network")
+        logger.info(f"Found {cluster_name}-control-plane IP on 'kind' network: {kind_ip}")
+    except (subprocess.CalledProcessError, KeyError, IndexError, ValueError, RuntimeError) as e:
+        logger.error(f"Failed to get {cluster_name}-control-plane IP:", e, file=sys.stderr)
+        sys.exit(1)
+
+    # 5) Update kubeconfig to use the internal IP instead of 127.0.0.1
+    server_url = f"https://{kind_ip}:6443"
+    try:
+        logger.info(f"Updating kubeconfig cluster 'kind-{cluster_name}' to use API server {server_url} ...")
+        subprocess.run(["kubectl", "config", "set-cluster", f"kind-{cluster_name}", f"--server={server_url}"], check=True)
+        logger.info("kubeconfig updated.")
+    except subprocess.CalledProcessError as e:
+        logger.error("Failed to update kubeconfig:", e, file=sys.stderr)
+        sys.exit(1)
+
+def createKubernetesCluster():
+    
+    try:
+        # 1) Create kind cluster
+        logger.info("Creating kind cluster...")
+        
+        subprocess.run([
+            "kind", "create", "cluster",
+            "--config", f"{BASE_DIR}/.devcontainer/kind-cluster.yml",
+            "--wait", "30s"
+        ], check=True)
+
+    except subprocess.CalledProcessError as e:
+        logger.error("Error creating kind cluster:", e, file=sys.stderr)
+        # Decide whether to continue or exit; we exit here because subsequent steps depend on the cluster
+        sys.exit(1)
+
+    logger.info("Kind cluster creation completed.")

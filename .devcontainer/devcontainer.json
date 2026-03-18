@@ -2,46 +2,33 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/kubernetes-helm
 {
 	"name": "Kubernetes-in-Codespaces",
-	"image": "ubuntu:jammy",
-	//"name": "Kubernetes - Local Configuration",
-	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	//"image": "mcr.microsoft.com/devcontainers/base:bullseye",
-
+	"image": "ubuntu:noble",
 	"features": {
-		"ghcr.io/devcontainers/features/docker-in-docker:2.12.2": {}
+		// This is REQUIRED if you want to create k8s clusters (eg. kind) or docker containers
+		"ghcr.io/devcontainers/features/docker-outside-of-docker:1.9.0": { "version": "29.2.1" },
+		"ghcr.io/mpriscella/features/kind:1.0.1": { "version": "v0.31.0" },
+		"ghcr.io/devcontainers/features/python:1.8.0": { "version": "3.14.3" },
+		"ghcr.io/devcontainers-extra/features/wget-apt-get:1.0.17": {}, // Intentionally no version specified as it's not available
+		"ghcr.io/devcontainers/features/github-cli:1.1.0": { "version": "2.87.3" },
+		// Kind is used NOT minikube
+		"ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
+			"version": "v1.35.2", // kubectl version
+			"helm": "v3.20.0", // helm version
+			"minikube": "none" // minikube version
+		}
 	},
-
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [
-		8080
-	],
-
-	// add labels
+	"forwardPorts": [8080],
 	"portsAttributes": {
 		"8080": { "label": "OTEL Demo" }
 	},
-
 	"hostRequirements": {
 		"cpus": 2
 	},
-
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": ".devcontainer/post-create.sh && pip install -r .devcontainer/requirements.txt && python3 environment_installer.py",
-
-	// containerEnv and secrets are equivalent
-	// containerEnv is used when running devcontainer locally
-	// eg.
-	// set DT_ENVIRONMENT_ID=abc12345
-	// devcontainer up && devcontainer open
-	// "secrets" is used by GitHub to present the user a UI form they complete
-	// In short, both blocks should stay in sync
-	"containerEnv": {
-		"RepositoryName": "obslab-otel-collector-data-ingest",
-		"DT_ENVIRONMENT_ID": "${localEnv:DT_ENVIRONMENT_ID}",
-		"DT_ENVIRONMENT_TYPE": "${localEnv:DT_ENVIRONMENT_TYPE}",
-		"DT_API_TOKEN": "${localEnv:DT_API_TOKEN}"
-	},
-
+	"postCreateCommand": "pip install -r .devcontainer/requirements.txt && python environment_installer.py",
+	// When a user reconnects to this container, ensure the kubeconfig is meshed so kubectl works
+	"postAttachCommand": "python on_attach.py",
 	"secrets": {
 	 	  "DT_ENVIRONMENT_ID": {
 	            "description": "eg. abc12345 from https://abc12345.live.dynatrace.com"
@@ -53,5 +40,4 @@
 	    	    "description": "Dynatrace API token with these permissions: `metrics.ingest`, `logs.ingest`, `openTelemetryTrace.ingest`"
 		}
 	}
-
 }
