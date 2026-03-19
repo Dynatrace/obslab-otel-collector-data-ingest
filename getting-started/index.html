@@ -702,32 +702,60 @@ document.addEventListener('DOMContentLoaded', function() {
 </code></pre></div>
 <ul>
 <li>Open the folder in Visual Studio code</li>
-<li>Ensure the <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers" target="_blank">Microsoft Dev Containers extension</a> and <a href="https://code.visualstudio.com/docs/devcontainers/devcontainer-cli#_installation" target="_blank">Dev Containers CLI</a> are installed in VSCode</li>
-<li>Open a new terminal in VSCode and set your environment variables as appropriate:</li>
+<li>Create a file called <code>.env</code> and populate it with your details like the following sample:</li>
 </ul>
-<div class="highlight"><pre><span></span><code>set DT_ENVIRONMENT_ID=abc12345
-set DT_ENVIRONMENT_TYPE=live
-set DT_API_TOKEN=dt0c01.******.***********
+<div class="highlight"><pre><span></span><code>export DT_ENVIRONMENT_ID=abc12345
+export DT_ENVIRONMENT_TYPE=live
+export DT_API_TOKEN=dt0c01.******.***********
+</code></pre></div>
+<p>(optional: if using Podman) Run the following to symlink podman to docker so that <code>docker ps</code> works:</p>
+<div class="highlight"><pre><span></span><code># Create a symlink to a false docker process
+# Restart vscode
+sudo ln -s $(command -v podman) /usr/local/bin/docker
+</code></pre></div>
+<p>Restart vscode (to reload the terminal) and <code>docker ps</code> should work.</p>
+<ul>
+<li>Create the environment:</li>
+</ul>
+<div class="highlight"><pre><span></span><code>podman machine init
+podman machine set --rootful=true
+podman machine set --memory 6000
+podman machine start
 </code></pre></div>
 <ul>
-<li>Start Docker / Podman</li>
-<li>Create the environment</li>
+<li>Go to the "Remote Explorer" icon in the left menu bar (the computer sceen with the little circle), then click the blue "Open Folder in Container" button.</li>
 </ul>
-<div class="highlight"><pre><span></span><code>devcontainer up
+<p>The container will build. You should see: <code>Connecting to Dev Container (show log)</code>. Click this to watch the installation log.</p>
+<p>It will take some time as it downloads the <code>ubuntu:noble</code> base image + all required tools.</p>
+<p>When it is complete, you should see some log output like this:</p>
+<div class="highlight"><pre><span></span><code>2026-03-18 03:50:58.123 | INFO     | utils:createKubernetesCluster:490 - Kind cluster creation completed.
+Running the postAttachCommand from devcontainer.json...
+
+[47919 ms] Start: Run in container: /bin/sh -c python on_attach.py
+2026-03-18 03:50:59.088 | INFO     | utils:configureClusterConnection:419 - Container ID (hostname): b&#39;8e43c3cc6746&#39;
+2026-03-18 03:50:59.088 | INFO     | utils:configureClusterConnection:425 - Starting obslab-otel-collector-data-ingest-cluster-control-plane in case it is stopped...
+obslab-otel-collector-data-ingest-cluster-control-plane
+2026-03-18 03:50:59.130 | INFO     | utils:configureClusterConnection:433 - Connecting container b&#39;8e43c3cc6746&#39; to Docker network obslab-otel-collector-data-ingest-cluster (if not already connected)...
+2026-03-18 03:50:59.194 | INFO     | utils:configureClusterConnection:436 - Connected to &#39;obslab-otel-collector-data-ingest-cluster&#39; network.
+2026-03-18 03:50:59.195 | INFO     | utils:configureClusterConnection:445 - Inspecting &#39;obslab-otel-collector-data-ingest-cluster-control-plane&#39; container to find IP on &#39;obslab-otel-collector-data-ingest-cluster&#39; network...
+2026-03-18 03:50:59.210 | INFO     | utils:configureClusterConnection:458 - Found obslab-otel-collector-data-ingest-cluster-control-plane IP on &#39;kind&#39; network: 10.89.0.7
+2026-03-18 03:50:59.210 | INFO     | utils:configureClusterConnection:466 - Updating kubeconfig cluster &#39;kind-obslab-otel-collector-data-ingest-cluster&#39; to use API server https://10.89.0.7:6443 ...
+Cluster &quot;kind-obslab-otel-collector-data-ingest-cluster&quot; set.
+2026-03-18 03:50:59.299 | INFO     | utils:configureClusterConnection:468 - kubeconfig updated.
+Done. Press any key to close the terminal.
 </code></pre></div>
-<p>It will take a few moments but you should see:</p>
-<div class="highlight"><pre><span></span><code>{&quot;outcome&quot;:&quot;success&quot;,&quot;containerId&quot;:&quot;...&quot;,&quot;remoteUser&quot;:&quot;root&quot;,&quot;remoteWorkspaceFolder&quot;:&quot;/workspaces/obslab-k6&quot;}
+<p>Do as it suggests and press a key. A new terminal should start that looks like this:</p>
+<div class="highlight"><pre><span></span><code>root@a1925c1cf511:/workspaces/obslab-otel-collector-data-ingest#
 </code></pre></div>
-<ul>
-<li>Connect to the demo environment. This will launch a new Visual Studio Code window
-<div class="highlight"><pre><span></span><code>devcontainer open
-</code></pre></div></li>
-</ul>
-<p>In the new Visual Studio code window, open a new terminal and continue with the tutorial.</p>
 </div>
 </div>
 </div>
-<p>You will now have an empty Kubernetes cluster. It is time to install the applications.</p>
+<p>You will now have an empty Kubernetes cluster. Test it by running <code>kubectl get nodes</code> which should work:</p>
+<div class="highlight"><pre><span></span><code># kubectl get nodes
+NAME                                                      STATUS   ROLES           AGE     VERSION
+obslab-otel-collector-data-ingest-cluster-control-plane   Ready    control-plane   2m19s   v1.35.1
+</code></pre></div>
+<p>It is time to install the applications.</p>
 <div class="grid cards">
 <ul>
 <li><a href="../install-opentelemetry-components/">Click Here to Install Components <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"/></svg></span></a></li>

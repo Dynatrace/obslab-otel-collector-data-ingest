@@ -534,12 +534,14 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 <div class="tabbed-block">
 <p>Use this option if you want to run this demo on your own machine.</p>
-<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/26a0.svg" title=":warning:" /> M3 and M4 Macs <a href="https://forums.docker.com/t/docker-containers-stop-to-running-on-my-macbook-pro-m4-pro/146432" target="_blank">seem to currently have issues</a> with Docker. We are investigating. If you have issues, choose the "Run in Cloud" option for now.</p>
 <p>To make this work, you'll need the following installed:</p>
 <ul>
+<li><a href="https://podman.io" target="_blank">Podman</a> or <a href="https://www.docker.com" target="_blank">Docker</a><ul>
+<li>Note: Podman installed via homebrew is known to be unstable and is not recommended by Podman themselves. Instead, install Podman via the official installer</li>
+</ul>
+</li>
 <li><a href="https://code.visualstudio.com/" target="_blank">Visual Studio Code</a></li>
 <li>The <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers" target="_blank">Microsoft Dev Containers extension</a> in Visual Studio Code</li>
-<li>The <a href="https://code.visualstudio.com/docs/devcontainers/devcontainer-cli#_installation" target="_blank">Dev Containers CLI</a></li>
 <li>Ability to clone this repository locally (if you don't know what this means, use the "run in cloud" option)</li>
 </ul>
 </div>
