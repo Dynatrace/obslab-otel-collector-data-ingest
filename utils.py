@@ -12,13 +12,22 @@ import subprocess
 import sys
 from dotenv import load_dotenv, set_key
 
-
 REPOSITORY_NAME = os.environ.get("RepositoryName", "obslab-otel-collector-data-ingest")
 BASE_DIR = f"/workspaces/{REPOSITORY_NAME}"
 
-loaded = load_dotenv()
-if not loaded:
-    logger.error("Did you create a .env file?")
+# If GITHUB_USER is unset, codespace is running locally
+# In which case, attempt to load the .env file
+# Otherwise the details are pulled from the `secrets` block
+# in devcontainer.json (provided via the GitHub UI form)
+# In that case, loading the .env file is uneccessary
+# As the env vars are directly injected / set by Github
+GITHUB_USER = os.environ.get("GITHUB_USER", "")
+if GITHUB_USER == "":
+    # Running codespace locally
+    # so load the .env file
+    loaded = load_dotenv()
+    if not loaded:
+        logger.error("Did you create a .env file?")
 
 DT_ENVIRONMENT_ID = os.environ.get("DT_ENVIRONMENT_ID", "")
 DT_ENVIRONMENT_TYPE = os.environ.get("DT_ENVIRONMENT_TYPE", "live")
