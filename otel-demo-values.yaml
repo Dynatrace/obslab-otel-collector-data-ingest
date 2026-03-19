@@ -1,3 +1,4 @@
+# Ref: https://github.com/open-telemetry/opentelemetry-helm-charts/blob/main/charts/opentelemetry-demo/values.yaml
 opentelemetry-collector:
   enabled: false
 jaeger:
@@ -13,8 +14,12 @@ components:
     enabled: false
   ad:
     enabled: false
+  cart:
+    enabled: true
+  checkout:
+    enabled: true
   currency:
-    enabled: false
+    enabled: true
   email:
     enabled: false
   # cart:
@@ -28,17 +33,46 @@ components:
     sidecarContainers: []
   fraud-detection:
     enabled: false
-  product-reviews:
-    enabled: false
-  kafka:
+  frontend:
+    enabled: true
+  frontend-proxy:
+    enabled: true
+  image-provider:
     enabled: true
   load-generator:
     enabled: true
     resources:
       limits:
         memory: 500Mi
+  payment:
+    enabled: true
+  product-catalog:
+    resources:
+      limits:
+        memory: 200Mi
+  product-reviews:
+    enabled: false
+  quote:
+    enabled: true
+  recommendation:
+    enabled: false
+  shipping:
+    enabled: true
+  kafka:
+    enabled: true
+  postgresql:
+    enabled: true
+  product-reviews:
+    enabled: false
+  llm:
+    enabled: false
+  valkey-cart:
+    enabled: true
 
 default:
+  image:
+    repository: ghcr.io/open-telemetry/demo
+    tag: "2.2.0"
   env:
     - name: OTEL_SERVICE_NAME
       valueFrom:
