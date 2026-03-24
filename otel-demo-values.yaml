@@ -18,6 +18,9 @@ components:
     enabled: true
   checkout:
     enabled: true
+    resources:
+      limits:
+        memory: 50Mi
   currency:
     enabled: true
   email:
