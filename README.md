@@ -1,8 +1,10 @@
 # Observability Lab: OpenTelemetry Data Ingest
 
 > [!IMPORTANT]  
-> This repo is undergoing a re-work and as such, until this notice is removed, should
+> This repo is undergoing a re-work and as such, until this notice is removed, should be considered unstable.
+>
 > Primary contact for this work is @agardnerit
+>
 > If you have any issues using this repo, please create an issue and tag @agardnerit
 
 Hands on demo to ingest logs, metrics and traces using the Dynatrace OpenTelemetry Collector.
