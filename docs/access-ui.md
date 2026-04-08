@@ -1,3 +1,9 @@
+---
+# Runme needs this so that it navigates up one dir to teh root
+# to search properly for files.
+cwd: ..
+---
+
 ## Access The Demo User Interface
 
 Note: This step is optional because there is a load generator already running. Observability data will be flowing into Dynatrace.

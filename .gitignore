@@ -1,7 +1,8 @@
-Lib*
-Scripts*
-__pycache__*
-notes.txt
-site*
+.DS_Store
 .env
+notes.txt
+bin/
+include/
+site/
 pyvenv.cfg
+nohup.out

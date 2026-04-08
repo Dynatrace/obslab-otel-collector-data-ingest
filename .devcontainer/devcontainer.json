@@ -6,13 +6,11 @@
 	"features": {
 		// This is REQUIRED if you want to create k8s clusters (eg. kind) or docker containers
 		"ghcr.io/devcontainers/features/docker-in-docker:2.16.1": { "version": "29.2.1"} ,
-		//"ghcr.io/devcontainers/features/docker-outside-of-docker:1.9.0": { "version": "29.2.1" },
 		"ghcr.io/mpriscella/features/kind:1.0.1": { "version": "v0.31.0" },
 		"ghcr.io/devcontainers/features/python:1.8.0": { "version": "3.14.3" },
 		"ghcr.io/devcontainers-extra/features/wget-apt-get:1.0.17": {}, // Intentionally no version specified as it's not available
 		"ghcr.io/devcontainers/features/github-cli:1.1.0": { "version": "2.87.3" },
-		// Kind is used NOT minikube
-		
+		// Kind is used, NOT minikube
 		"ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
 			"version": "v1.35.2", // kubectl version
 			"helm": "v3.20.0", // helm version

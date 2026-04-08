@@ -1,10 +1,16 @@
+---
+# Runme needs this so that it navigates up one dir to teh root
+# to search properly for files.
+cwd: ..
+---
+
 ## Create a Kubernetes secret
 
 Use `kubectl` to create a `Secret` to store your Dynatrace connection details.
 
 Copy and paste the following code block as-is.
 
-```
+```sh { "name": "create secret from .env file"}
 source .env
 kubectl create secret generic dynatrace-otelcol-dt-api-credentials \
 --from-literal=DT_ENDPOINT=$DT_URL/api/v2/otlp \
@@ -17,7 +23,7 @@ You should see this: `secret/dynatrace-otelcol-dt-api-credentials created`
 
 Copy and paste the following to add the OpenTelemetry Helm chart and update it to the latest versions.
 
-```
+```sh { "name": "Helm: add OTEL chart and update"}
 helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
 helm repo update
 ```
@@ -32,13 +38,13 @@ You do not need to modify this file.
 
 Install the collector by copy and pasting this content:
 
-```
+```sh {"name": "Helm: install dynatrace OTEL collector" }
 helm upgrade -i dynatrace-collector open-telemetry/opentelemetry-collector -f collector-values.yaml
 ```
 
 After Helm indicates it has installed, run the following command and you should see a pod either `Pending` or `Running`.
 
-```
+```sh
 kubectl get pods
 ```
 
@@ -50,7 +56,7 @@ Use Helm to install the OpenTelemetry demo system, passing the configuration fil
 
 This is a demo website we will use to generate OpenTelemetry data (logs, metrics and traces).
 
-```
+```sh { "name": "Helm: Install OTEL Demo App"}
 helm upgrade -i my-otel-demo open-telemetry/opentelemetry-demo -f otel-demo-values.yaml
 ```
 

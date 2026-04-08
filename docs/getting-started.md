@@ -1,3 +1,9 @@
+---
+# Runme needs this so that it navigates up one dir to teh root
+# to search properly for files.
+cwd: ..
+---
+
 --8<-- "snippets/tenant-id.md"
 --8<-- "snippets/bizevent-getting-started.js"
 

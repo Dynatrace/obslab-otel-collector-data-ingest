@@ -1,3 +1,9 @@
+---
+# Runme needs this so that it navigates up one dir to teh root
+# to search properly for files.
+cwd: ..
+---
+
 # Ingest Telemetry Data to Dynatrace using the OpenTelemetry Collector
 
 --8<-- "snippets/disclaimer.md"

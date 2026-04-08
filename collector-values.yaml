@@ -57,6 +57,8 @@ config:
     cumulativetodelta: {}
 
   exporters:
+    debug:
+      verbosity: detailed
     otlp_http:
       endpoint: "${env:DT_ENDPOINT}"
       headers:
